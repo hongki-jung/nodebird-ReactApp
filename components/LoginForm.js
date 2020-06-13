@@ -1,9 +1,13 @@
-import React, {useState, useCallback} from 'react';
+import React, { useCallback} from 'react';
 import {Form, Input, Button} from 'antd';
 import Link from 'next/link'
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import useInput from '../hooks/useinput';
+import {useDispatch} from 'react-redux';
+
+import {loginAction} from '../reducers/user';
+
 
 // styled.div 하게 되면 ButtonWrapper는 div태그(div component)가 된다.
 const ButtonWrapper = styled.div`
@@ -18,7 +22,9 @@ const FormWrapper= styled(Form)`
 `;
 
 
-const LoginForm = ({setIsLoggedIn}) => {
+// const LoginForm = ({setIsLoggedIn}) => {
+
+const LoginForm = () => {
 
     // Custom Hook 사용전 버전
     // const [id, setId] = useState('');
@@ -36,6 +42,9 @@ const LoginForm = ({setIsLoggedIn}) => {
     // },[])
 
 
+
+    const dispatch = useDispatch();
+
     //  Custom Hook 사용후 
     const [id,onChangeId] = useInput('');
     const [password,onChangePassword] = useInput('')
@@ -47,7 +56,8 @@ const LoginForm = ({setIsLoggedIn}) => {
 
     const onSubmitForm = useCallback(()=>{
         console.log(id,password);
-        setIsLoggedIn(true);
+        // setIsLoggedIn(true);
+        dispatch(loginAction({id,password}));
     },[id,password]);
 
 
@@ -87,9 +97,9 @@ const LoginForm = ({setIsLoggedIn}) => {
 }
 
 
-LoginForm.propTypes={
-    setIsLoggedIn: PropTypes.func.isRequired,
-}
+// LoginForm.propTypes={
+//     setIsLoggedIn: PropTypes.func.isRequired,
+// }
 
 
 export default LoginForm;

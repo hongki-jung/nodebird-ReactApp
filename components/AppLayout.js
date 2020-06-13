@@ -1,8 +1,8 @@
-import React, {useState} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types'; // 프롭스 검사
 import Link from 'next/link';
 import {Menu, Input, Row, Col} from 'antd';
-
+import {useSelector} from 'react-redux';
 
 // antd
 // Row 가로(전체 24개) , Col 세로 - 반응형 디자인에 사용된다.
@@ -37,7 +37,19 @@ const SearchInput =styled(Input.Search)`
 // AppLayout으로 감싸지는 것들이 children이 된다.
 // index.js , profile.js , signup.js 등이 children이 된다.
 const AppLayout = ({children}) =>{
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    // const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    // useSelector을 사용하면 useState를 사용할 필요가 없다.
+     //isLoggedIn이 바뀌면 알아서 AppLayout 컴포넌트가 리렌더링된다.
+    const isLoggedIn = useSelector((state)=> state.user.isLoggedIn);
+    
+
+
+
+
+
+
 
     // return 부분이 Virtual Dom이다 !! 
     // 수정 전후return()을 비교해서 바뀐부분이 있으면 그부분만 수정해서 재랜더링한다.
@@ -69,7 +81,11 @@ const AppLayout = ({children}) =>{
 
                 <Col xs={24} md={6}>
                     {/* 로그인 되어있으면 사용자 프로필을 보여준다 그렇지 않으면 로그인폼을 보여준다. */}
-                  {isLoggedIn ? <UserProfile setIsLoggedIn={setIsLoggedIn}/> : <LoginForm setIsLoggedIn={setIsLoggedIn}/>}
+                  {/* isLoggedIn ? <UserProfile setIsLoggedIn={setIsLoggedIn}/> : <LoginForm setIsLoggedIn={setIsLoggedIn}/>} */}
+
+                  {/**리덕스를 사용하면 위와 같은 방식으로 props를 전달할 필요없다.  */}
+                  {isLoggedIn ? <UserProfile /> : <LoginForm />}
+
                 </Col>   {/* 25% 차지*/}
 
 

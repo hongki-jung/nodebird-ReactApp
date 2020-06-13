@@ -1,6 +1,6 @@
 import {createWrapper}  from 'next-redux-wrapper'
-import {createStore} from 'redux';
-
+import {createStore, compose, applyMiddleware} from 'redux';
+import {composeWithDevTools} from 'redux-devtools-extension'
 import reducer from '../reducers/index';
 
 
@@ -33,12 +33,19 @@ Q2 . ContextAPI 와  Redux, Mobax의 차이?
 
 const configureStore = () =>{
 
-    const store = createStore(reducer);
-    store.dispatch({
-        type:'CHANGE_NICKNAME',
-        data:'boogicho'
-    })
-    
+    const middlewares = []
+
+    // enhancer :: 리덕스의 기능을 향상시켜주는 middleware
+    const enhancer = process.env.NODE_ENV ==='production'
+    ? compose(applyMiddleware(...middlewares))
+    : composeWithDevTools(applyMiddleware(...middlewares))
+
+    const store = createStore(reducer, enhancer);
+    // store.dispatch({
+    //     type:'CHANGE_NICKNAME',
+    //     data:'boogicho'
+    // })
+    return store;
 
 };
 

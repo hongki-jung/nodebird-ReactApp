@@ -20,7 +20,7 @@
     "/_polyfills": [
       "static/runtime/polyfills.js"
     ],
-    "/signup": [
+    "/profile": [
       "static/runtime/webpack.js",
       "static/runtime/main.js"
     ]
